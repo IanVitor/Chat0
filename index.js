@@ -13,8 +13,11 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg, name, img) => {
-    socket.broadcast.emit('chat message', msg, name, img);
+  socket.on('chat img', (img, name, userImg) => {
+    socket.broadcast.emit('chat img', img, name, userImg);
+  });
+  socket.on('chat message', (msg, name, userImg) => {
+    socket.broadcast.emit('chat message', msg, name, userImg);
   });
 });
 

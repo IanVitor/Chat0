@@ -4,6 +4,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: rgb(230, 230, 230);
   width: 100%;
+  height: 100%;
 }
 
 header {
@@ -48,6 +49,7 @@ header button {
   flex-grow: 1;
   border-radius: 2rem;
   margin: 0.25rem;
+  margin-right: 50px;
 }
 
 #input:focus {
@@ -80,7 +82,7 @@ header button {
   align-items: center;
   min-width: 50px;
   width: fit-content;
-  padding: 5px 10px;
+  padding: 5px;
   gap: 10px;
 }
 
@@ -122,6 +124,24 @@ header button {
   opacity: 0.8;
 }
 
+/* Imagens recebidas */
+
+.img-content{
+  background-color: rgb(172, 172, 172);
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.301);
+  position: relative;
+  padding: 3px;
+}
+
+.img-content h3{
+  padding: 5px;
+}
+
+.img-content span{
+  padding: 5px;
+}
+
 /* Mensagens enviadas */
 
 .send-content {
@@ -150,6 +170,69 @@ header button {
   font-size: 12px;
   padding-bottom: 5px;
   opacity: 0.8;
+}
+
+/* Imagens ennviadas */
+
+#img-send{
+  background-color: #085ff5;
+  color: #fdfdfd;
+  float: right;
+  width: fit-content;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.img-send-content{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.img-send-content span,
+.img-content span{
+  text-align: right;
+  font-size: 12px;
+  opacity: 0.8;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: #fff;
+}
+
+.img-send-content img,
+.img-content img{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* IMG Modal */
+
+#imgModal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.img-modal-content{
+  background-color: #fefefe;
+  margin: 15% auto 0;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+#img-form label{
+  float: left;
 }
 
 /* Modal */
@@ -189,7 +272,8 @@ header button {
   cursor: pointer;
 }
 
-#user-form {
+#user-form,
+#img-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -198,19 +282,22 @@ header button {
   padding: 5px;
 }
 
-.user-form-input input {
+.user-form-input input,
+#img-form input {
   width: 200px;
   padding: 5px;
 }
 
-.user-form-input {
+.user-form-input,
+.img-form-input {
   display: flex;
   flex-direction: column;
   padding: 10px;
   gap: 5px;
 }
 
-#user-form-submit {
+#user-form-submit,
+#img-form-submit {
   width: 100px;
   height: 30px;
   border: none;
@@ -218,4 +305,18 @@ header button {
   border-radius: 5px;
   cursor: pointer;
   background-color: #085ff5;
+}
+
+#img_btn{
+  position: fixed;
+  bottom: 6px;
+  right: 85px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  height: 30px;
+  margin: 0.25rem;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
 }

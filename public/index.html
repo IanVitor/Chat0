@@ -39,12 +39,31 @@
 
   <main id="messages"></main>
   <form id="form">
-    <input id="input" autocomplete="off" /><button>Enviar</button>
+    <input id="input" autocomplete="off" />
+    <button>Enviar</button>
   </form>
 
+  <button id="img_btn"><i class="fa fa-image"></i></button>
+
+  <div id="imgModal">
+    <div class="img-modal-content">
+      <span id="close-img" class="close">&times;</span>
+      <form id="img-form">
+        <div class="img-form-input">
+          <label for="img-url">URL</label>
+          <input id="img-url" type="url" required>
+        </div>
+        <input id="img-form-submit" type="submit" value="Enviar">
+      </form>
+    </div>
+
+  </div>
+
   <script src="userModal.js"></script>
+  <script src="imgModal.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
+
     var socket = io();
 
     var messages = document.getElementById('messages');
@@ -57,6 +76,22 @@
     var userName = document.getElementById('name-input');
     var userImage = document.getElementById('img-input');
     var userArray = []
+    
+    /* Img Form */
+    var imgForm = document.getElementById('img-form');
+    var imageInput = document.getElementById('img-url');
+
+    imgForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (imageInput.value) {
+        let data = getUserData()
+        socket.emit('chat img', imageInput.value, data[0], data[1]);
+        createImage(imageInput.value)
+        imageInput.value = '';
+        imgModal.style.display = "none";
+      }
+    });
+
 
     userForm.addEventListener('submit', function (e) {
       e.preventDefault()
@@ -82,9 +117,59 @@
 
     const getHour = () => {
       let date = new Date()
+      let hour = date.getHours()
+      let min = date.getMinutes()
 
-      return `${date.getHours()}:${date.getMinutes()}`
+      if(hour < 10){
+        hour = '0' + hour  
+      }
+
+      if(min < 10){
+        min = '0' + min  
+      }
+
+      return `${hour}:${min}`
     }
+
+    /* Images */
+
+    function createImage(url) {
+      var item = document.createElement('div');
+      item.innerHTML =
+        `
+      <div id="img-send">
+      <div class="img-send-content">
+        <img src="${url}">
+        <span>${getHour()}</span>
+      </div>
+    </div>
+      `
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    socket.on('chat img', function (img, name, userImg) {
+      var item = document.createElement('div');
+      item.innerHTML =
+        `
+      <div class="received">
+        <div class="user">
+          <div class="image">
+            <img src="${userImg}" alt="user image">
+          </div>
+        </div>
+        <div class="img-content">
+          <h3 class="name">${name}</h3>
+          <img src="${img}">
+          <span>${getHour()}</span>
+        </div>
+      </div>
+      `
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    /* Messages */
 
     function createMessage(msg) {
       var item = document.createElement('div');
@@ -102,7 +187,6 @@
     }
 
     socket.on('chat message', function (msg, name, img) {
-      let data = getUserData()
       var item = document.createElement('div');
       item.innerHTML =
         `
