@@ -1,13 +1,15 @@
 body {
   margin: 0;
   padding-bottom: 3rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: rgb(230, 230, 230);
+  font-family: "Poppins";
+  background-color: #e6e6e6;
   width: 100%;
   height: 100%;
 }
 
 header {
+  position: fixed;
+  width: 100%;
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -17,14 +19,15 @@ header {
 header img {
   width: 80px;
   height: 50px;
+  
 }
 
 header button {
   position: absolute;
-  right: 10px;
+  right: 40px;
   top: 25px;
   border: none;
-  background-color: transparent;
+  background-color: #fff;
   font-size: 20px;
   cursor: pointer;
 }
@@ -75,6 +78,23 @@ header button {
   flex-direction: column;
 }
 
+::-webkit-scrollbar {
+  left: -5px;
+  width: 8px;
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: #888;
+  border: 5px solid var(--third-color-gray);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e6e6e6;
+}
+
 /* Mensagens recebidas */
 
 .received {
@@ -103,6 +123,11 @@ header button {
   border-radius: 10px;
   padding: 0px 10px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.301);
+}
+
+.content h3{
+  font-family: "Roboto";
+  font-weight: 600;
 }
 
 .name {
@@ -319,4 +344,27 @@ header button {
   border-radius: 3px;
   outline: none;
   cursor: pointer;
+}
+
+#typing_container{
+  position: absolute;
+  bottom: 30px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 10px;
+}
+
+#typing_container img{
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+
+#typing_container p{
+  font-size: 24px;
+  align-items: center;
+  color: rgb(53, 50, 50);
 }

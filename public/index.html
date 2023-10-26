@@ -8,11 +8,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <title>Chat0</title>
 </head>
 
 <body>
+
+  <!--Notification-->
+  <audio id="notification"></audio>
+
   <header>
     <img src="https://i.imgur.com/avB6xZC.png" alt="logo">
     <button id="myBtn"><i class="fa fa-gear"></i></button>
@@ -56,7 +63,11 @@
         <input id="img-form-submit" type="submit" value="Enviar">
       </form>
     </div>
+  </div>
 
+  <!--Typing Div-->
+
+  <div id="typing_container">
   </div>
 
   <script src="userModal.js"></script>
@@ -76,7 +87,7 @@
     var userName = document.getElementById('name-input');
     var userImage = document.getElementById('img-input');
     var userArray = []
-    
+
     /* Img Form */
     var imgForm = document.getElementById('img-form');
     var imageInput = document.getElementById('img-url');
@@ -92,7 +103,6 @@
       }
     });
 
-
     userForm.addEventListener('submit', function (e) {
       e.preventDefault()
 
@@ -101,6 +111,14 @@
 
       updateUserData(name, image)
       modal.style.display = "none";
+    })
+
+    // Typing
+
+    form.addEventListener("keyup", function (e) {
+      e.preventDefault();
+      let data = getUserData()
+      socket.emit('typing', data[1])
     })
 
     // Socket
@@ -120,12 +138,12 @@
       let hour = date.getHours()
       let min = date.getMinutes()
 
-      if(hour < 10){
-        hour = '0' + hour  
+      if (hour < 10) {
+        hour = '0' + hour
       }
 
-      if(min < 10){
-        min = '0' + min  
+      if (min < 10) {
+        min = '0' + min
       }
 
       return `${hour}:${min}`
@@ -150,6 +168,7 @@
 
     socket.on('chat img', function (img, name, userImg) {
       var item = document.createElement('div');
+      playSound();
       item.innerHTML =
         `
       <div class="received">
@@ -188,6 +207,8 @@
 
     socket.on('chat message', function (msg, name, img) {
       var item = document.createElement('div');
+      let typing = document.querySelector("#typing_container")
+      playSound();
       item.innerHTML =
         `
       <div class="received">
@@ -204,12 +225,40 @@
     </div>
       `
       messages.appendChild(item);
+      typing.innerHTML = ""
+      hideTyping()
       window.scrollTo(0, document.body.scrollHeight);
     });
 
+    // Typing
+
+    socket.on('typing', function (img) {
+      let container = document.querySelector("#typing_container")
+      container.innerHTML =
+        `
+          <img src="${img}" alt="typing img">
+          <p>•••</p>   
+        `
+    });
+
+    function hideTyping() {
+      let container = document.querySelector("#typing_container")
+      setTimeout(() => {
+        container.innerHTML = ""
+      }, 200)
+    }
+
+    // Notification
+
+    function playSound() {
+      let audio = document.getElementById("notification")
+      audio.src = "https://od.lk/s/MTBfMjMwOTAyMjcxXw/notification.mp3"
+      audio.play()
+    }
+
     // LocalStorage
 
-    function updateUserData (name, img){
+    function updateUserData(name, img) {
 
       userArray = []
 
@@ -225,11 +274,11 @@
         userArray = JSON.parse(localStorage.getItem('public'));
       };
 
-      if(userArray[0] == null){
+      if (userArray[0] == null) {
         userArray[0] = 'Desconhecido'
       }
 
-      if(userArray[1] == null || userArray[1] == ""){
+      if (userArray[1] == null || userArray[1] == "") {
         userArray[1] = "https://i.imgur.com/rHiOx6M.png"
       }
 

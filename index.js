@@ -19,6 +19,9 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg, name, userImg) => {
     socket.broadcast.emit('chat message', msg, name, userImg);
   });
+  socket.on('typing', (userImg) => {
+    socket.broadcast.emit('typing', userImg);
+  });
 });
 
 server.listen(3000, () => {
