@@ -1,10 +1,28 @@
 body {
+  /* Cores de texto */
+  --text-white: #fff;
+  --text-dark: #000;
+
+  /* Cores de fundo */
+  --bg-white: #fff;
+  --bg-received: #e5e6e8;
+  --bg-send: #085ff5;
+  --bg-search: #fff;
+
   margin: 0;
   padding-bottom: 3rem;
   font-family: "Poppins";
-  background-color: #e6e6e6;
+  background-color: var(--bg-white);
   width: 100%;
   height: 100%;
+}
+
+.dark {
+  --text-white: #fff;
+  --text-dark: #fff;
+  --bg-white: #15161b;
+  --bg-received: #1a1b20;
+  --bg-search: var(--bg-received);
 }
 
 header {
@@ -13,7 +31,7 @@ header {
   display: flex;
   justify-content: center;
   padding: 10px;
-  background-color: #fff;
+  background-color: var(--bg-white);
 }
 
 header img {
@@ -27,9 +45,10 @@ header button {
   right: 40px;
   top: 25px;
   border: none;
-  background-color: #fff;
+  background-color: transparent;
   font-size: 20px;
   cursor: pointer;
+  color: var(--text-dark);
 }
 
 #form {
@@ -46,16 +65,18 @@ header button {
   backdrop-filter: blur(10px);
 }
 
-#input {
+#text-box {
   border: none;
   padding: 0 1rem;
   flex-grow: 1;
   border-radius: 2rem;
   margin: 0.25rem;
   margin-right: 50px;
+  background-color: var(--bg-search);
+  color: var(--text-dark);
 }
 
-#input:focus {
+#text-box:focus {
   outline: none;
 }
 
@@ -66,7 +87,7 @@ header button {
   margin: 0.25rem;
   border-radius: 3px;
   outline: none;
-  color: #fff;
+  color: var(--text-white);
   cursor: pointer;
 }
 
@@ -92,7 +113,7 @@ header button {
 }
 
 ::-webkit-scrollbar-track {
-  background: #e6e6e6;
+  background: var(--bg-white);
 }
 
 /* Mensagens recebidas */
@@ -119,9 +140,10 @@ header button {
 }
 
 .content {
-  background-color: rgb(225, 217, 225);
+  background-color: var(--bg-received);
   border-radius: 10px;
   padding: 0px 10px;
+  color: var(--text-dark);
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.301);
 }
 
@@ -170,7 +192,7 @@ header button {
 /* Mensagens enviadas */
 
 .send-content {
-  background-color: #085ff5;
+  background-color: var(--bg-send);
   color: #fdfdfd;
   float: right;
   min-width: 50px;
@@ -200,7 +222,7 @@ header button {
 /* Imagens ennviadas */
 
 #img-send{
-  background-color: #085ff5;
+  background-color: var(--bg-send);
   color: #fdfdfd;
   float: right;
   width: fit-content;
@@ -281,6 +303,7 @@ header button {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  border-radius: 8px;
 }
 
 .close {
@@ -307,10 +330,23 @@ header button {
   padding: 5px;
 }
 
+.form-title{
+  width: 200px;
+}
+
+.form-title h2{
+  font-size: 16px;
+  text-align: left;
+}
+
 .user-form-input input,
 #img-form input {
   width: 200px;
-  padding: 5px;
+  height: 30px;
+  padding: 8px 16px;
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 6px;
 }
 
 .user-form-input,
@@ -329,7 +365,7 @@ header button {
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #085ff5;
+  background-color: var(--bg-send);
 }
 
 #img_btn{
@@ -345,6 +381,54 @@ header button {
   outline: none;
   cursor: pointer;
 }
+
+#theme-container{
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.623);
+}
+
+.theme-option{
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-option img{
+  width: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.313);
+}
+
+input[type=radio] {
+  height: 1em;
+  aspect-ratio: 1;
+  border: calc(1em/8) solid #939393;
+  padding: calc(1em/8);
+  background: radial-gradient(farthest-side,var(--bg-send) 94%,#0000) 50%/0 0 no-repeat content-box;
+  border-radius: 50%;
+  outline-offset: calc(1em/10);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: inherit;
+  transition: .3s;
+}
+input[type=radio]:checked {
+  border-color: var(--bg-send);
+  background-size: 100% 100%;
+}
+
+.theme-form{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Typing */
 
 #typing_container{
   position: absolute;

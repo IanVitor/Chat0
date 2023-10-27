@@ -25,28 +25,56 @@
     <button id="myBtn"><i class="fa fa-gear"></i></button>
   </header>
 
-  <div id="myModal" class="modal">
+  <div id="user-modal" class="modal">
 
     <div class="modal-content">
       <span class="close">&times;</span>
+
       <form id="user-form">
+
+        <div class="form-title">          
+          <h2>Tema/Cor</h2>
+        </div>
+
+        <section id="theme-container">
+
+          <div class="theme-option">
+            <img src="https://i.imgur.com/3N5Mwzl.png" alt="Theme preview">
+
+            <div class="theme-form">
+              <label for="light">Dark</label>
+              <input id="light-input" class="theme-input" type="radio" name="theme" value="light">          
+            </div>
+          </div>
+          
+          <div class="theme-option">            
+            <img src="https://i.imgur.com/nVyGfKt.png" alt="Theme preview">
+            
+            <div class="theme-form">              
+              <label for="light">Light</label>
+              <input id="dark-input" class="theme-input" type="radio" name="theme" value="dark">
+            </div>
+          </div>
+
+        </section>
+          
         <div class="user-form-input">
           <label for="name">Nome</label>
-          <input id="name-input" type="text" required min="1" max="30">
+          <input id="name-input" type="text" placeholder="Digite seu nome" required min="1" max="30">
         </div>
         <div class="user-form-input">
-          <label for="image">Perfil</label>
-          <input id="img-input" type="text">
+          <label for="image">Imagem</label>
+          <input id="img-input" placeholder="Digite uma URL de imagem" type="text">
         </div>
         <input id="user-form-submit" type="submit" value="Salvar">
       </form>
     </div>
-
   </div>
 
   <main id="messages"></main>
+
   <form id="form">
-    <input id="input" autocomplete="off" />
+    <input id="text-box" type="text" placeholder="Digite algo..." autocomplete="off" />
     <button>Enviar</button>
   </form>
 
@@ -70,16 +98,23 @@
   <div id="typing_container">
   </div>
 
+  <!-- JS Codes -->
+
   <script src="userModal.js"></script>
   <script src="imgModal.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
 
     var socket = io();
-
+    
     var messages = document.getElementById('messages');
     var form = document.getElementById('form');
-    var input = document.getElementById('input');
+    var input = document.getElementById('text-box');
+    const theme = window.localStorage.getItem("theme");
+    
+    if (theme === "dark") document.body.classList.add("dark");
+    
+    checkRadioInput()
 
     // LocalStorage variables
 
@@ -103,14 +138,34 @@
       }
     });
 
+    /* User Form */
+
+    function checkRadioInput(){
+      let inputs = document.querySelectorAll(".theme-input")
+
+      for (const radioButton of inputs) {
+        if (radioButton.value != theme) {
+          radioButton.checked = true;
+          break;
+        }
+      }
+    }
+
     userForm.addEventListener('submit', function (e) {
       e.preventDefault()
 
       let name = userName.value
       let image = userImage.value
+      let inputs = document.querySelectorAll(".theme-input")
+
+      for (const radioButton of inputs) {
+        if (radioButton.checked) {
+          changeTheme(radioButton.value);
+          break;
+        }
+      }
 
       updateUserData(name, image)
-      modal.style.display = "none";
     })
 
     // Typing
@@ -283,6 +338,19 @@
       }
 
       return userArray
+    }
+
+    // Theme
+
+    function changeTheme(radioOption) {
+      if (radioOption === "dark") {
+        window.localStorage.setItem("theme", "light");
+        document.body.classList.remove("dark")
+      } else if (radioOption === "light") {
+        window.localStorage.setItem("theme", "dark")
+        document.body.classList.add("dark")
+      }
+      window.location.reload();
     }
 
   </script>

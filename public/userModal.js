@@ -1,10 +1,9 @@
-var modal = document.getElementById("myModal");
+var modal = document.getElementById("user-modal");
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function () {
   modal.style.display = "block";
-  console.log('configuracao')
 };
 
 span.onclick = function () {
