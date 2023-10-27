@@ -285,7 +285,7 @@ header button {
 /* Modal */
 
 .modal {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   position: fixed;
