@@ -71,7 +71,9 @@
     </div>
   </div>
 
-  <main id="messages"></main>
+  <main id="messages">
+    <button onclick="notifyUser()">Aperte</button>
+  </main>
 
   <form id="form">
     <input id="text-box" type="text" placeholder="Digite algo..." autocomplete="off" />
@@ -241,7 +243,19 @@
       `
       messages.appendChild(item);
       window.scrollTo(0, document.body.scrollHeight);
+      notifyUser()
     });
+
+    /* Notify */
+
+    function notifyUser(){
+      Notification.requestPermission().then(perm => {
+        if(perm === "granted"){
+          new Notification("teste de notificação")
+          alert("foi")
+        }
+      })
+    }
 
     /* Messages */
 
