@@ -225,6 +225,7 @@
       </div>
     </div>
       `
+      window.scrollTo(0, document.body.scrollHeight);
       messages.appendChild(item);
     }
 
@@ -246,6 +247,7 @@
         </div>
       </div>
       `
+      window.scrollTo(0, document.body.scrollHeight);
     });
 
     /* Notify */
@@ -291,6 +293,7 @@
     </div>
       `
       messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
     }
 
     socket.on('chat message', function (msg, name, img) {
@@ -311,6 +314,7 @@
       </div>
     </div>
       `
+      window.scrollTo(0, document.body.scrollHeight);
       messages.appendChild(item);
       typing.innerHTML = ""
       hideTyping()
