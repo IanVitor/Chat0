@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" translate="no">
 
 <head>
   <meta charset="UTF-8">
@@ -105,13 +105,19 @@
   <script src="userModal.js"></script>
   <script src="imgModal.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
+  <script type="module">
 
-    var socket = io();
+    import createChat from './chat.js'
+    import userData from './userData.js'
 
-    var messages = document.getElementById('messages');
-    var form = document.getElementById('form');
-    var input = document.getElementById('text-box');
+    const chat = createChat()
+    const user = userData()
+
+    const socket = io();
+
+    const messages = document.getElementById('messages');
+    const form = document.getElementById('form');
+    const input = document.getElementById('text-box');
     const theme = window.localStorage.getItem("theme");
 
     if (theme === "dark") document.body.classList.add("dark");
@@ -132,7 +138,7 @@
     imgForm.addEventListener('submit', function (e) {
       e.preventDefault();
       if (imageInput.value) {
-        let data = getUserData()
+        let data = user.getUserData()
         socket.emit('chat img', imageInput.value, data[0], data[1]);
         createImage(imageInput.value)
         imageInput.value = '';
@@ -162,19 +168,19 @@
 
       for (const radioButton of inputs) {
         if (radioButton.checked) {
-          changeTheme(radioButton.value);
+          user.changeTheme(radioButton.value);
           break;
         }
       }
 
-      updateUserData(name, image)
+      user.updateUserData(name, image)
     })
 
     // Typing
 
     form.addEventListener("keyup", function (e) {
       e.preventDefault();
-      let data = getUserData()
+      let data = user.getUserData()
       socket.emit('typing', data[1])
     })
 
@@ -183,7 +189,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (input.value) {
-        let data = getUserData()
+        let data = user.getUserData()
         socket.emit('chat message', input.value, data[0], data[1]);
         createMessage(input.value)
         input.value = '';
@@ -254,7 +260,18 @@
               body: msg,
               icon: "https://i.imgur.com/avB6xZC.png",
               tag: name
-            })
+            });
+            notification.onclick = function () {
+              let notificationURL = 'http://localhost:3000/'
+              if (notificationURL) {
+                const existingTab = window.open('http://localhost:3000/', '_blank');
+                if (existingTab) {
+                  existingTab.location.href = notificationURL;
+                } else {
+                  window.open(notificationURL, '_blank');
+                }
+              }
+            };
           }
         })
       }
@@ -305,6 +322,30 @@
       }
     });
 
+    // Update Users Array
+
+    socket.on('add-user', function (command) {
+      console.log('> Emiting ' + command.type)
+      chat.addUser(command)
+    })
+
+    socket.on('remove-user', function (command) {
+      console.log('> Emiting ' + command.type)
+      chat.removeUser(command)
+    })
+
+    socket.on('setup', (state) => {
+      const playerId = socket.id
+      chat.setState(state)
+    })
+
+    socket.on('updateUsers', function (name, userImg) {
+      console.log(`${name}`)
+    });
+
+    document.onload = socket.emit('updateUsers', 'ian', userImage.value)
+    console.log(userName.value + 'teste')
+
     // Typing
 
     socket.on('typing', function (img) {
@@ -330,49 +371,6 @@
       audio.src = "https://od.lk/s/MTBfMjMwOTAyMjcxXw/notification.mp3"
       audio.play()
     }
-
-    // LocalStorage
-
-    function updateUserData(name, img) {
-
-      userArray = []
-
-      userArray[0] = name
-      userArray[1] = img
-
-      localStorage.public = JSON.stringify(userArray)
-
-    }
-
-    function getUserData() {
-      if (localStorage.public) {
-        userArray = JSON.parse(localStorage.getItem('public'));
-      };
-
-      if (userArray[0] == null) {
-        userArray[0] = 'Desconhecido'
-      }
-
-      if (userArray[1] == null || userArray[1] == "") {
-        userArray[1] = "https://i.imgur.com/rHiOx6M.png"
-      }
-
-      return userArray
-    }
-
-    // Theme
-
-    function changeTheme(radioOption) {
-      if (radioOption === "dark") {
-        window.localStorage.setItem("theme", "light");
-        document.body.classList.remove("dark")
-      } else if (radioOption === "light") {
-        window.localStorage.setItem("theme", "dark")
-        document.body.classList.add("dark")
-      }
-      window.location.reload();
-    }
-
   </script>
 </body>
 
