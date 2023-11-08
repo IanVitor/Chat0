@@ -2,19 +2,21 @@ export default function userData(){
   const userArray = []
 
   function getUserData() {
+    let data = []
+    
     if (localStorage.public) {
-      userArray = JSON.parse(localStorage.getItem('public'));
+      data = JSON.parse(localStorage.getItem('public'));
     };
 
-    if (userArray[0] == null) {
-      userArray[0] = 'Desconhecido'
+    if (data[0] == null) {
+      data[0] = 'Desconhecido'
     }
 
-    if (userArray[1] == null || userArray[1] == "") {
-      userArray[1] = "https://i.imgur.com/rHiOx6M.png"
+    if (data[1] == null || data[1] == "") {
+      data[1] = "https://i.imgur.com/rHiOx6M.png"
     }
 
-    return userArray
+    return data
   }
 
   function updateUserData(name, img) {

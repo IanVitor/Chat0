@@ -40,9 +40,20 @@ header img {
   
 }
 
-header button {
+#myBtn {
   position: absolute;
   right: 40px;
+  top: 25px;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-dark);
+}
+
+#users-btn {
+  position: absolute;
+  right: 80px;
   top: 25px;
   border: none;
   background-color: transparent;
@@ -59,6 +70,8 @@ header button {
   left: 0;
   right: 0;
   display: flex;
+  align-items: center;
+  gap: 5px;
   width: 100%;
   height: 50px;
   box-sizing: border-box;
@@ -69,9 +82,10 @@ header button {
   border: none;
   padding: 0 1rem;
   flex-grow: 1;
-  border-radius: 2rem;
+  height: 30px;
+  width: 70%;
+  border-radius: 6px;
   margin: 0.25rem;
-  margin-right: 50px;
   background-color: var(--bg-search);
   color: var(--text-dark);
 }
@@ -83,9 +97,11 @@ header button {
 #form>button {
   background: #333;
   border: none;
-  padding: 0 1rem;
+  padding: 8px;
   margin: 0.25rem;
   border-radius: 3px;
+  height: 30px;
+  width: fit-content;
   outline: none;
   color: var(--text-white);
   cursor: pointer;
@@ -96,6 +112,7 @@ header button {
   padding: 80px 10px 10px;
   display: flex;
   gap: 30px;
+  padding-bottom: 70px;
   flex-direction: column;
 }
 
@@ -282,6 +299,38 @@ header button {
   float: left;
 }
 
+/* Emoji Modal */
+
+#emoji-modal{
+  position: fixed;
+  bottom: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#emoji-container{
+  background-color: var(--bg-received);
+  width: 80%;
+  border-radius: 8px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+#emoji-container button{
+  background-color: var(--bg-white);
+  border: none;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* Modal */
 
 .modal {
@@ -367,20 +416,6 @@ header button {
   border-radius: 5px;
   cursor: pointer;
   background-color: var(--bg-send);
-}
-
-#img_btn{
-  position: fixed;
-  bottom: 6px;
-  right: 85px;
-  border: none;
-  background-color: #333;
-  color: #fff;
-  height: 30px;
-  margin: 0.25rem;
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
 }
 
 #theme-container{

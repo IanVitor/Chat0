@@ -23,6 +23,7 @@
 
   <header>
     <img src="https://i.imgur.com/avB6xZC.png" alt="logo">
+    <button id="users-btn"><i class="fa fa-user"></i></button>
     <button id="myBtn"><i class="fa fa-gear"></i></button>
   </header>
 
@@ -77,10 +78,29 @@
 
   <form id="form">
     <input id="text-box" type="text" placeholder="Digite algo..." autocomplete="off" />
+    <button id="emoji-btn" class="fa fa-smile"></button>
+    <button id="img_btn" class="fa fa-image"></button>
     <button>Enviar</button>
   </form>
 
-  <button id="img_btn"><i class="fa fa-image"></i></button>
+  <div id="emoji-modal">
+    <div id="emoji-container">
+      <button value="&#x1F600;" onclick="insertEmoji(this.value)" >&#x1F600;</button>
+      <button value="&#x1F602;" onclick="insertEmoji(this.value)" >&#x1F602;</button>
+      <button value="&#x1F610;" onclick="insertEmoji(this.value)" >&#x1F610;</button>
+      <button value="&#x1F611;" onclick="insertEmoji(this.value)" >&#x1F611;</button>
+      <button value="&#x1F612;" onclick="insertEmoji(this.value)" >&#x1F612;</button>
+      <button value="&#x1F44D;" onclick="insertEmoji(this.value)" >&#x1F44D;</button>
+      <button value="&#x1F928;" onclick="insertEmoji(this.value)" >&#x1F928;</button>
+      <button value="&#x1F914;" onclick="insertEmoji(this.value)" >&#x1F914;</button>
+      <button value="&#x1F641;" onclick="insertEmoji(this.value)" >&#x1F641;</button>
+      <button value="&#x1F644;" onclick="insertEmoji(this.value)" >&#x1F644;</button>
+      <button value="&#x1F62D;" onclick="insertEmoji(this.value)" >&#x1F62D;</button>
+      <button value="&#x1F62E;" onclick="insertEmoji(this.value)" >&#x1F62E;</button>
+      <button value="&#x1F61C;" onclick="insertEmoji(this.value)" >&#x1F61C;</button>
+    </div>
+  </div>
+
 
   <div id="imgModal">
     <div class="img-modal-content">
@@ -101,6 +121,14 @@
   </div>
 
   <!-- JS Codes -->
+
+  <script>
+    const textBox = document.getElementById('text-box');
+
+    function insertEmoji(value){
+      textBox.value += value 
+    }
+  </script>
 
   <script src="userModal.js"></script>
   <script src="imgModal.js"></script>
@@ -226,6 +254,7 @@
     </div>
       `
       messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
     }
 
     socket.on('chat img', function (img, name, userImg) {
@@ -246,12 +275,12 @@
         </div>
       </div>
       `
+      window.scrollTo(0, document.body.scrollHeight);
     });
 
     /* Notify */
 
     function notifyUser(name, msg) {
-      console.log(document.visibilityState)
       if (document.visibilityState === "hidden") {
 
         Notification.requestPermission().then(perm => {
@@ -291,6 +320,7 @@
     </div>
       `
       messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
     }
 
     socket.on('chat message', function (msg, name, img) {
@@ -311,6 +341,7 @@
       </div>
     </div>
       `
+      window.scrollTo(0, document.body.scrollHeight);
       messages.appendChild(item);
       typing.innerHTML = ""
       hideTyping()
@@ -344,7 +375,6 @@
     });
 
     document.onload = socket.emit('updateUsers', 'ian', userImage.value)
-    console.log(userName.value + 'teste')
 
     // Typing
 
@@ -363,6 +393,14 @@
         container.innerHTML = ""
       }, 200)
     }
+
+    //
+
+    function loadUsers(){
+      console.log(chat.state)
+    }
+
+    loadUsers()
 
     // Notification
 
