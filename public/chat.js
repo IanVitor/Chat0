@@ -1,7 +1,5 @@
 export default function createChat() {
-  const state = {
-    users: {},
-  };
+  const state = []
 
   const observers = [];
 
@@ -24,10 +22,14 @@ export default function createChat() {
     const userName = command.userName;
     const userImg = command.userImg;
 
-    state.users[userId] = {
+    
+    let user = {
+      id: userId,
       name: userName,
       img: userImg,
     };
+
+    state.push(user)
 
     notifyAll({
       type: "add-user",
@@ -35,24 +37,25 @@ export default function createChat() {
       userName: userName,
       userImg: userImg,
     });
-
-    console.log(state);
   }
 
   function removeUser(command) {
     const userId = command.userId;
 
-    delete state.users[userId];
+    for(let i=0; i<state.length; i++){
+      if(state[i].id === userId){
+        state.splice(i, 1)
+      }
+    }
 
     notifyAll({
       type: "remove-user",
       userId: userId,
     });
-
-    console.log(state)
   }
 
   return {
+    state,
     addUser,
     removeUser,
     subscribe,

@@ -12,13 +12,11 @@ app.use(express.static('public'))
 const chat = createChat()
 
 chat.subscribe((command) => {
-  console.log('> Emiting '+command.type)
   sockets.emit(command.type, command)
 })
 
 sockets.on('connection', (socket) => {
   const userId = socket.id
-  console.log('> User connected: '+userId)
 
   chat.addUser({ userId: userId })
 
@@ -26,7 +24,6 @@ sockets.on('connection', (socket) => {
 
   socket.on('disconnect', () =>{
     chat.removeUser({ userId: userId })
-    console.log('> user disconnected: '+userId)
   })
 
   socket.on('chat img', (img, name, userImg) => {
@@ -37,9 +34,6 @@ sockets.on('connection', (socket) => {
   });
   socket.on('typing', (userImg) => {
     socket.broadcast.emit('typing', userImg);
-  });
-  socket.on('updateUsers', (name, userImg) => {
-    socket.broadcast.emit('updateUsers', name, userImg);
   });
 });
 

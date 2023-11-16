@@ -23,7 +23,7 @@
 
   <header>
     <img src="https://i.imgur.com/avB6xZC.png" alt="logo">
-    <button id="users-btn"><i class="fa fa-user"></i></button>
+    <button id="users-btn"><i class="fa fa-user"></i><span id="connected-users"></span></button>
     <button id="myBtn"><i class="fa fa-gear"></i></button>
   </header>
 
@@ -357,25 +357,20 @@
     // Update Users Array
 
     socket.on('add-user', function (command) {
-      console.log('> Emiting ' + command.type)
       chat.addUser(command)
+      loadUsers()
     })
 
     socket.on('remove-user', function (command) {
-      console.log('> Emiting ' + command.type)
       chat.removeUser(command)
+      loadUsers()
     })
 
     socket.on('setup', (state) => {
       const playerId = socket.id
       chat.setState(state)
+      loadUsers()
     })
-
-    socket.on('updateUsers', function (name, userImg) {
-      console.log(`${name}`)
-    });
-
-    document.onload = socket.emit('updateUsers', 'ian', userImage.value)
 
     // Typing
 
@@ -398,7 +393,9 @@
     //
 
     function loadUsers(){
-      console.log(chat.state)
+      let users = document.getElementById('connected-users')
+
+      users.innerText = chat.state.length
     }
 
     loadUsers()

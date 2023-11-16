@@ -62,6 +62,12 @@ header img {
   color: var(--text-dark);
 }
 
+#connected-users{
+  padding: 4px 6px 0;
+  font-size: 18px;
+  color: green;
+}
+
 #form {
   background: rgba(0, 0, 0, 0.15);
   padding: 0.25rem;
@@ -312,13 +318,13 @@ header img {
 
 #emoji-container{
   background-color: var(--bg-received);
-  width: 80%;
+  width: fit-content;
   border-radius: 8px;
   min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: 6px 12px;
   gap: 5px;
   flex-wrap: wrap;
 }
